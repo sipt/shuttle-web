@@ -1,0 +1,117 @@
+<div [ngStyle]="tableStyle">
+  <nz-table #list [nzData]="records"
+  nzSize="small"
+  [nzShowPagination]="false"
+  [nzFrontPagination]="false"
+  [nzScroll]="tbodyScroll">
+    <thead id="st-thead">
+      <tr>
+        <th nzWidth="100px">ID</th>
+        <th nzWidth="150px">Time</th>
+        <th nzWidth="100px">Up/Down</th>
+        <th nzWidth="350px">Policy</th>
+        <th nzWidth="100px">Protocol</th>
+        <th style="padding: 0px">
+          <nz-input-group nzSuffixIcon="anticon anticon-search">
+            <input type="text" nz-input placeholder="URL" [(ngModel)]="keyword" (ngModelChange)="filter($event)">
+          </nz-input-group>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of list.data" (click)="getDump(record.ID, record.Dumped)">
+        <td>{{record.ID}}</td>
+        <td>{{record.Created | date:'MM-dd HH:mm:ss'}}</td>
+        <td>{{record.Up | capacity}}/{{record.Down | capacity}}</td>
+        <td>{{record.Proxy.Name}}({{record.Rule.Type}},{{record.Rule.Value}})</td>
+        <td>{{record.Protocol}}</td>
+        <td>
+          <strong>
+            <i class="anticon anticon-swap" *ngIf="record.Status=='Active'" style="color: orange"></i>
+          </strong>
+          <i class="anticon anticon-check-circle" *ngIf="record.Status=='Completed' && !record.Dumped" style="color: #87d068"></i>
+          <i class="anticon anticon-close-circle" *ngIf="record.Status=='Reject'" style="color: #f50"></i>
+          <strong *ngIf="record.Status=='Completed' && record.Dumped">
+            <i class="anticon anticon-download" style="color: #2db7f5"></i>
+          </strong>
+          {{record.URL}}
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+<!-- <nz-affix nzOffsetBottom="0" >
+</nz-affix> -->
+<div class="st-ext">
+  <div class="st-ext-title" (click)="closeExt()">
+    <div>
+      <button style="margin: 4px;" nz-button (click)="reflesh()">
+        <i class="anticon anticon-reload" style="color: #2db7f5"></i>
+      </button>
+      <button style="margin: 4px;" nz-button (click)="clear()">
+          <i class="anticon anticon-delete" style="color: #f50"></i>
+      </button>
+      <div style="float: right;">
+          <button *ngIf="!extClosed" style="margin: 4px;border: 0px; background: #fafafa;" nz-button>
+              <i class="anticon anticon-down" style="color: #2db7f5"></i>
+          </button>
+      </div>
+    </div>
+  </div>
+  <div class="st-ext-content" *ngIf="!extClosed">
+    <nz-tabset [nzSize]="small" style="width: 100%;">
+      <nz-tab nzTitle="Request-Header">
+        <div class="st-dump-content" style="height: 399px;" [innerHTML]="dump.ReqHeader| nl2br">
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Request-Body">
+        <div style="padding-left: 16px;width: 300px">
+          <div *ngIf="dump.ReqBody">
+            <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+              <input type="text" nz-input placeholder="input filename" [(ngModel)]="reqFile" >
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button nz-button nzType="primary" nzSearch (click)="download('request')">
+                <strong><i class="anticon anticon-download"></i></strong>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <div class="st-dump-content" style="height: 367px;" [innerHTML]="dump.ReqBody| nl2br" *ngIf="dump.ReqBody">
+        </div>
+        <div *ngIf="!dump.ReqBody" style="text-align: center;height: 367px;">
+          <div style="font-size: 5em;">
+            <i class="anticon anticon-file"></i>
+          </div>
+          Body is empty.
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Response-Header">
+        <div class="st-dump-content" style="height: 399px;" [innerHTML]="dump.RespHeader| nl2br">
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Response-Body">
+        <div style="padding-left: 16px;width: 300px">
+          <div *ngIf="dump.RespBody">
+            <nz-input-group nzSearch [nzSuffix]="suffixIconButton">
+              <input type="text" nz-input placeholder="input filename" [(ngModel)]="respFile" >
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button nz-button nzType="primary" nzSearch (click)="download('response')">
+                <strong><i class="anticon anticon-download"></i></strong>
+              </button>
+            </ng-template>
+          </div>
+        </div>
+        <div *ngIf="dump.RespBody!=='large body'" class="st-dump-content" style="height: 367px;" [innerHTML]="dump.RespBody| html2text | nl2br">
+        </div>
+        <div *ngIf="dump.RespBody==='large body'" style="text-align: center;height: 367px;">
+          <div style="font-size: 5em;">
+            <i class="anticon anticon-file-unknown"></i>
+          </div>
+          Large body, you can download it!
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

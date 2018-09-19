@@ -1,0 +1,40 @@
+<div style="height: calc(100vh - 40px);">
+  <nz-table #list [nzData]="cacheList"
+  [nzShowPagination]="false"
+  [nzFrontPagination]="false"
+  nzSize="small"
+  [nzScroll]="{y: 'calc(100vh - 80px)'}">
+    <thead>
+      <tr>
+        <th nzWidth="100px">Type</th>
+        <th nzWidth="200px">DNSs</th>
+        <th nzWidth="300px">Domain</th>
+        <th nzWidth="100px">Country</th>
+        <th >IPs</th>
+      </tr>
+    </thead>
+    <tbody class="st-tbody">
+      <tr *ngFor="let cache of list.data">
+        <td>{{cache.Type}}</td>
+        <td>{{cache.DNSs}}</td>
+        <td>{{cache.Domain}}</td>
+        <td>{{cache.Country}}</td>
+        <td>
+          <nz-select style="width: 200px;" [ngModel]="cache.IPs[0]" nzSize="small">
+            <nz-option *ngFor="let option of cache.IPs" [nzLabel]="option" [nzValue]="option"></nz-option>
+          </nz-select>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+<div class="st-ext-title">
+  <div>
+    <button style="margin: 4px;" nz-button (click)="reflesh()">
+      <i class="anticon anticon-reload" style="color: #2db7f5"></i>
+    </button>
+    <button style="margin: 4px;" nz-button (click)="clear()">
+        <i class="anticon anticon-delete" style="color: #f50"></i>
+    </button>
+  </div>
+</div>

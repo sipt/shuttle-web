@@ -1,0 +1,10 @@
+.st-sider-menus{
+    height: 100vh;
+}
+.st-switch {
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+}
+.st-switch div span {
+    margin-left: 1em;
+}

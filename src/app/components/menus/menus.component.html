@@ -1,0 +1,90 @@
+<ul nz-menu class="st-sider-menus" style="overflow-y: scroll;">
+  <div (click)="githubHome()" style="cursor: pointer;">
+    <img src="/assets/menus_logo.png" width="40px" height="40px" 
+    style="float: left;margin: 5px;margin-left: 20px"/>
+    <h3 style="height: 50px;line-height: 50px;margin: 5px;margin-left: 80px;margin-bottom: 0px">Shuttle</h3>
+  </div>
+  <nz-divider style="margin-top: 10px;margin-bottom: 5px"></nz-divider>
+  <li nz-menu-group>
+    <span title>Speed</span>
+    <div nz-row style="text-align: center;margin-bottom: 5px">
+      <nz-tag [nzColor]="'blue'">
+        <i class="anticon anticon-arrow-up"></i>
+        {{speed.up_speed}}
+      </nz-tag>
+      <nz-tag [nzColor]="'blue'">
+        {{speed.down_speed}}
+        <i class="anticon anticon-arrow-down"></i>
+      </nz-tag>
+    </div>
+  </li>
+  <li nz-menu-group>
+    <span title>General</span>
+    <ul>
+      <li nz-menu-item routerLink="/general" 
+      routerLinkActive #rla1_1="routerLinkActive" 
+      [nzSelected]="rla1_1.isActive">General</li>
+      <li nz-menu-item routerLink="/servers" 
+      routerLinkActive #rla1_2="routerLinkActive" 
+      [nzSelected]="rla1_2.isActive">Servers</li>
+      <li nz-menu-item routerLink="/mitm" 
+      routerLinkActive #rla1_3="routerLinkActive" 
+      [nzSelected]="rla1_3.isActive">MITM</li>
+    </ul>
+  </li>
+  <li nz-menu-group>
+    <span title>HTTP Records</span>
+    <ul>
+      <li nz-menu-item routerLink="/records" 
+      routerLinkActive #rla2="routerLinkActive" 
+      [nzSelected]="rla2.isActive">Records</li>
+    </ul>
+  </li>
+  <li nz-menu-group>
+    <span title>DNS</span>
+    <ul>
+      <li nz-menu-item routerLink="/dns-cache"
+      routerLinkActive #rla3="routerLinkActive" 
+      [nzSelected]="rla3.isActive">Cache</li>
+    </ul>
+  </li>
+  <li nz-menu-group>
+    <span title>Options</span>
+    <div style="padding-left: 10px; padding-right: 10px;">
+      <nz-select style="width: 100%;" [(ngModel)]="currentMode"
+      (ngModelChange)="setMode($event)">
+        <nz-option *ngFor="let mode of modeList" 
+        [nzLabel]="mode.label" 
+        [nzValue]="mode.value"
+        ></nz-option>
+      </nz-select>
+    </div>
+    <div nz-row class="st-switch">
+      <div nz-col nzOffset="4">
+          <nz-switch [(ngModel)]="allow_dump" (click)="dumpChange()" ></nz-switch>
+          <span>Dump</span>
+      </div>
+    </div>
+    <div nz-row class="st-switch">
+        <div nz-col nzOffset="4">
+            <nz-switch [(ngModel)]="allow_mitm" (click)="mitmChange()" ></nz-switch>
+            <span>MITM</span>
+        </div>
+    </div>
+  </li>
+  <li nz-menu-group>
+    <div style="width: 100%; text-align: center;margin-bottom: 20px">
+      <div style="width: 100%;text-align: center;padding: 5px;">
+        <button nz-button nzType="default" style="width: 130px;" (click)="reload()">
+            <i class="anticon anticon-reload"></i>Reload
+        </button>
+      </div>
+      <div style="width: 100%;text-align: center;padding: 5px;">
+        <button nz-button nzType="danger" style="width: 130px" (click)="shutdown()">
+            <i class="anticon anticon-poweroff"></i>Shutdown
+        </button>
+      </div>
+    </div>
+  </li>
+</ul>
+

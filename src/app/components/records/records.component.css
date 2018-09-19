@@ -1,0 +1,17 @@
+.st-ext {
+    width: 100%;
+    background: #ffffff;
+}
+.st-ext-title {
+    background: #fafafa;
+    width: 100%;
+    height: 40px;
+}
+.st-ext-content {
+    height: 460px;
+}
+.st-dump-content {
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow: scroll;
+}

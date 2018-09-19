@@ -1,0 +1,27 @@
+<div *ngFor="let group of list" style="width: 300px;float:left;margin:0.7em">
+  <nz-table
+    #servers
+    nzSize="small"
+    [nzData]="group.servers"
+    [nzShowPagination]="false"
+    [nzFrontPagination]="false">
+    <thead>
+      <tr>
+        <th>{{group.name}}({{group.select_type}})
+          <i class="anticon anticon-reload"
+          *ngIf="group.select_type == 'rtt'" 
+          style="color: #2db7f5; float: right;"
+          (click)="refreshSelect(group.name)"></i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let server of servers.data" (click)="select(group.name, server.name)">
+        <td>{{server.name}}
+          <nz-tag *ngIf="server.rtt">{{server.rtt}}</nz-tag>
+          <i *ngIf="server.selected" class="anticon anticon-check-circle" style="color: #87d068; float: right;"></i>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

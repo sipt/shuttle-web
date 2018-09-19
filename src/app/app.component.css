@@ -1,0 +1,9 @@
+.st-layout {
+    height: 100vh;
+}
+.st-white-bgc {
+    background: #fff;
+}
+.st-footer{
+    position:fixed;
+}

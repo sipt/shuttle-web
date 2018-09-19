@@ -1,0 +1,40 @@
+<div style="width: 500px; margin: 10px;">
+  <h3>MitM Rules</h3>
+  <div>
+    <button nz-button nzType="default" style="width: 130px;margin-bottom: 10px; margin-right: 10px" (click)="generate()">
+      <i class="anticon anticon-file-text"></i>
+      Generate
+    </button>
+    <button nz-button nzType="default" style="width: 130px;" (click)="download()">
+      <i class="anticon anticon-download"></i>
+      Download
+    </button>
+  </div>
+  <nz-table
+  #smallTable
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false"
+  nzSize="small"
+  [nzData]="data">
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of smallTable.data">
+        <td>{{data}}</td>
+        <td><a (click)="delMitMRules(data)">Del</a></td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <div style="margin-top: 10px">
+    <nz-input-group nzSearch [nzSuffix]="suffixButton">
+      <input type="text" nz-input placeholder="Input domain (support '*.example.com')" [(ngModel)]="input" >
+    </nz-input-group>
+    <ng-template #suffixButton>
+      <button nz-button nzType="primary" nzSearch (click)="appendMitMRules()">Append</button>
+    </ng-template>
+  </div>
+</div>
